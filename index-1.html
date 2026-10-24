@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nikolas Pereira Santos</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: terminal hero over code rain, then one-column sections with a sticky command-style nav. Single dark look by choice. */
+:root {
+  --bg: #050806;
+  --panel: #0a110d;
+  --line: #17301f;
+  --fg: #d6e6da;
+  --muted: #7f9a88;
+  --green: #2dff7a;
+  --green-dim: #1a9c4c;
+  --warn: #ffd166;
+  --display: "Chakra Petch", "Arial Narrow", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+  overflow-x: hidden;
+}
+#rain { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; opacity: .28; pointer-events: none; }
+.wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; }
+a { color: var(--green); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+
+/* nav */
+nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  display: flex; gap: 6px 18px; flex-wrap: wrap; align-items: center;
+  padding: 12px 0; font-family: var(--mono); font-size: 13px;
+  background: linear-gradient(var(--bg) 70%, transparent);
+}
+nav b { color: var(--green); font-weight: 600; margin-right: auto; }
+nav a { color: var(--muted); text-decoration: none; }
+nav a:hover { color: var(--green); }
+
+/* hero */
+header { padding: 40px 0 56px; }
+.term { background: rgba(5,8,6,.88); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 0 60px rgba(45,255,122,.08); overflow: hidden; }
+.term-bar { display: flex; gap: 7px; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.term-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); display: block; }
+.term-bar span { margin-left: 8px; }
+.term-body { padding: 22px clamp(16px, 4vw, 32px) 28px; font-family: var(--mono); font-size: clamp(13px, 2.4vw, 16px); min-width: 0; }
+.cmd { color: var(--green); }
+.cmd::before { content: "nikolas@portfolio:~$ "; color: var(--green-dim); }
+.out { color: var(--fg); margin: 2px 0 14px; overflow-wrap: anywhere; }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(34px, 8vw, 68px); line-height: 1.02; margin: 4px 0 10px; letter-spacing: -.01em; color: #fff; text-shadow: 0 0 28px rgba(45,255,122,.35); }
+.cursor { display: inline-block; width: .55em; height: 1.1em; background: var(--green); vertical-align: -.2em; animation: blink 1.05s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+.btn { font-family: var(--mono); font-size: 14px; font-weight: 600; padding: 12px 18px; border-radius: 6px; text-decoration: none; border: 1px solid var(--green); cursor: pointer; }
+.btn.solid { background: var(--green); color: #031208; }
+.btn.solid:hover { background: #7dffab; }
+.btn.ghost { background: transparent; color: var(--green); }
+.btn.ghost:hover { background: rgba(45,255,122,.1); }
+
+/* stats */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 22px; }
+.stat { border: 1px solid var(--line); background: rgba(10,17,13,.9); padding: 16px; border-radius: 8px; }
+.stat strong { display: block; font-family: var(--display); font-size: clamp(30px, 6vw, 44px); line-height: 1; color: var(--green); }
+.stat span { font-size: 14px; color: var(--muted); }
+
+/* sections */
+section { padding: 48px 0; border-top: 1px solid var(--line); }
+h2 { font-family: var(--display); font-size: clamp(26px, 5vw, 38px); margin: 0 0 8px; color: #fff; }
+h2::before { content: "> "; color: var(--green); }
+.lead { color: var(--muted); max-width: 62ch; margin: 0 0 26px; }
+.about { display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; }
+.about > * { min-width: 0; }
+.about p { margin: 0 0 14px; max-width: 62ch; }
+.facts { list-style: none; margin: 0; padding: 0; font-family: var(--mono); font-size: 14px; }
+.facts li { display: flex; gap: 12px; padding: 9px 0; border-bottom: 1px dashed var(--line); }
+.facts li span:first-child { color: var(--green-dim); min-width: 92px; }
+.facts li span:last-child { min-width: 0; overflow-wrap: anywhere; }
+
+/* skills */
+.skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.skill { border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 18px; min-width: 0; }
+.skill h3 { margin: 0 0 10px; font-family: var(--mono); font-size: 14px; color: var(--green); font-weight: 600; }
+.chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.chip { font-family: var(--mono); font-size: 12.5px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 99px; color: var(--fg); background: #0d1a12; }
+
+/* projects */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.filters button { font-family: var(--mono); font-size: 13px; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; }
+.filters button[aria-pressed="true"] { border-color: var(--green); color: #031208; background: var(--green); font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
+.proj { border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; transition: border-color .2s, transform .2s; }
+.proj:hover { border-color: var(--green-dim); transform: translateY(-2px); }
+.proj.feat { border-color: var(--green-dim); }
+.proj h3 { margin: 0; font-family: var(--display); font-size: 20px; color: #fff; }
+.proj p { margin: 0; font-size: 14.5px; color: var(--fg); flex: 1; }
+.proj .meta { display: flex; justify-content: space-between; gap: 10px; align-items: center; font-family: var(--mono); font-size: 12.5px; flex-wrap: wrap; }
+.lang { color: var(--warn); }
+.badge { color: var(--green); border: 1px solid var(--green-dim); border-radius: 4px; padding: 1px 7px; }
+.proj a.repo { font-family: var(--mono); font-size: 13px; font-weight: 500; }
+
+/* timeline */
+.tl { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 2px solid var(--green-dim); display: grid; gap: 26px; }
+.tl li { position: relative; }
+.tl li::before { content: ""; position: absolute; left: -29px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--green); }
+.tl h3 { margin: 0; font-family: var(--display); font-size: 20px; color: #fff; }
+.tl .when { font-family: var(--mono); font-size: 13px; color: var(--green-dim); }
+.tl p { margin: 4px 0 0; color: var(--muted); max-width: 62ch; }
+
+/* resume */
+.cv { background: #f4f7f4; color: #101a13; border-radius: 8px; padding: clamp(18px, 4vw, 38px); font-family: Arial, Helvetica, sans-serif; font-size: 14.5px; line-height: 1.5; box-shadow: 0 0 50px rgba(45,255,122,.1); }
+.cv h3 { margin: 0 0 2px; font-size: 24px; letter-spacing: .02em; }
+.cv h4 { margin: 18px 0 6px; padding-bottom: 3px; border-bottom: 1.5px solid #101a13; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+.cv p { margin: 0 0 6px; }
+.cv a { color: #0a6a30; overflow-wrap: anywhere; }
+.cv ul { margin: 0; padding-left: 18px; }
+.cv li { margin-bottom: 5px; }
+.cv small { color: #4a5a50; display: block; }
+
+/* contact */
+.contact { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.ct { border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 18px; min-width: 0; }
+.ct small { font-family: var(--mono); color: var(--green-dim); font-size: 12.5px; display: block; }
+.ct div { font-family: var(--mono); font-size: 14.5px; overflow-wrap: anywhere; margin: 4px 0 12px; }
+.copy { font-family: var(--mono); font-size: 12.5px; background: transparent; color: var(--green); border: 1px solid var(--green-dim); border-radius: 5px; padding: 6px 12px; cursor: pointer; }
+.copy:hover { background: rgba(45,255,122,.1); }
+footer { padding: 30px 0 calc(40px + env(safe-area-inset-bottom, 0px)); font-family: var(--mono); font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); }
+
+@media (max-width: 760px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .about { grid-template-columns: 1fr; }
+  nav a.hide-sm { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .cursor { animation: none; }
+  .proj { transition: none; }
+}
+</style>
+
+</head>
+<body>
+<canvas id="rain" aria-hidden="true"></canvas>
+
+<div class="wrap">
+  <nav aria-label="Seções">
+    <b>~/nikolas</b>
+    <a href="#sobre">sobre</a>
+    <a href="#skills">tecnologias</a>
+    <a href="#projetos">projetos</a>
+    <a class="hide-sm" href="#trajetoria">trajetória</a>
+    <a href="#curriculo">currículo</a>
+    <a href="#contato">contato</a>
+  </nav>
+
+  <header>
+    <div class="term">
+      <div class="term-bar"><i></i><i></i><i></i><span>terminal — portfólio</span></div>
+      <div class="term-body">
+        <div class="cmd">whoami</div>
+        <h1 id="nome">Nikolas Pereira Santos<span class="cursor" aria-hidden="true"></span></h1>
+        <div class="cmd">cat funcao.txt</div>
+        <div class="out">Programador | Python, Java e JavaScript | Foco em Backend</div>
+        <div class="cmd">ls projetos/ | wc -l</div>
+        <div class="out">11 projetos publicados no GitHub</div>
+        <div class="cmd">status</div>
+        <div class="out">Disponível para vaga de estágio em TI, em qualquer cidade.</div>
+        <div class="cta">
+          <a class="btn solid" href="#projetos">Ver meus projetos</a>
+          <a class="btn ghost" href="https://github.com/snikolas738-ui" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn ghost" href="#curriculo">Ver currículo</a>
+        </div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong data-n="11">11</strong><span>projetos no GitHub</span></div>
+      <div class="stat"><strong data-n="3">3</strong><span>linguagens principais</span></div>
+      <div class="stat"><strong data-n="4">4</strong><span>APIs REST construídas</span></div>
+      <div class="stat"><strong data-n="2">2</strong><span>bancos de dados</span></div>
+    </div>
+  </header>
+
+  <section id="sobre">
+    <h2>Sobre mim</h2>
+    <p class="lead">Programador que aprende construindo. Cada projeto aqui tem código aberto e README explicando como rodar.</p>
+    <div class="about">
+      <div>
+        <p>Trabalho com desenvolvimento de software web e desktop, com foco em backend. Gosto de organizar o código em camadas (modelos, repositórios, serviços e rotas), porque deixa o sistema fácil de entender e de mudar.</p>
+        <p>Meus projetos cobrem APIs REST, banco de dados relacional, autenticação com JWT e interfaces simples em JavaScript. Procuro minha primeira oportunidade como estagiário ou desenvolvedor júnior.</p>
+      </div>
+      <ul class="facts">
+        <li><span>função</span><span>Programador backend</span></li>
+        <li><span>stack</span><span>Python, Java, JavaScript</span></li>
+        <li><span>objetivo</span><span>Estágio em TI</span></li>
+        <li><span>local</span><span>Aceito qualquer cidade</span></li>
+        <li><span>formação</span><span>Análise e Desenvolvimento de Sistemas</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2>Tecnologias</h2>
+    <p class="lead">O que eu uso nos projetos publicados.</p>
+    <div class="skills">
+      <div class="skill"><h3>Linguagens</h3><div class="chips"><span class="chip">Python</span><span class="chip">Java</span><span class="chip">JavaScript</span><span class="chip">C#</span><span class="chip">SQL</span><span class="chip">HTML</span><span class="chip">CSS</span></div></div>
+      <div class="skill"><h3>Frameworks</h3><div class="chips"><span class="chip">Spring Boot</span><span class="chip">Flask</span><span class="chip">Node.js</span></div></div>
+      <div class="skill"><h3>Banco de dados</h3><div class="chips"><span class="chip">SQLite</span><span class="chip">PostgreSQL</span><span class="chip">MySQL</span><span class="chip">Modelagem de dados</span></div></div>
+      <div class="skill"><h3>Conceitos</h3><div class="chips"><span class="chip">API REST</span><span class="chip">POO</span><span class="chip">Arquitetura em camadas</span><span class="chip">CRUD</span><span class="chip">JWT</span></div></div>
+      <div class="skill"><h3>Ferramentas</h3><div class="chips"><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">VS Code</span><span class="chip">Linux</span><span class="chip">Windows</span></div></div>
+      <div class="skill"><h3>Outros</h3><div class="chips"><span class="chip">Redes</span><span class="chip">Photoshop</span><span class="chip">Web design</span></div></div>
+    </div>
+  </section>
+
+  <section id="projetos">
+    <h2>Projetos</h2>
+    <p class="lead">Todos no meu GitHub. Escolha uma linguagem para filtrar.</p>
+    <div class="filters" id="filters" role="group" aria-label="Filtrar por linguagem"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="trajetoria">
+    <h2>Trajetória</h2>
+    <p class="lead">Do curso técnico até o portfólio de hoje.</p>
+    <ul class="tl">
+      <li><div class="when">2022</div><h3>Curso técnico na ENNET</h3><p>Primeiro contato com informática e tecnologia de forma estruturada.</p></li>
+      <li><div class="when">Dezembro de 2025</div><h3>Início em Análise e Desenvolvimento de Sistemas, Anhanguera</h3><p>Graduação com previsão de conclusão em dezembro de 2027.</p></li>
+      <li><div class="when">Projetos de estudo</div><h3>Python, Java e JavaScript na prática</h3><p>Calculadora de IMC, agenda de contatos, jogo da forca, conversor de moedas e cadastro de produtos.</p></li>
+      <li><div class="when">Projetos de backend</div><h3>APIs REST e banco de dados</h3><p>Biblioteca, API de tarefas, Help Desk e Sistema Financeiro, com SQLite e arquitetura em camadas.</p></li>
+      <li><div class="when">Em andamento</div><h3>Sistema de Gestão de Vendas</h3><p>Backend em Java com Spring Boot, PostgreSQL e autenticação JWT.</p></li>
+    </ul>
+  </section>
+
+  <section id="curriculo">
+    <h2>Currículo</h2>
+    <p class="lead">Versão resumida. Se a empresa pedir o arquivo, envio em Word ou PDF.</p>
+    <article class="cv">
+      <h3>NIKOLAS PEREIRA SANTOS</h3>
+      <p>Programador | Python, Java e JavaScript | Foco em Backend</p>
+      <small>(11) 96640-4759 · snikolas738@gmail.com</small>
+      <small><a href="https://www.linkedin.com/in/nikolas-pereira-santos-32a04038b/" target="_blank" rel="noopener">linkedin.com/in/nikolas-pereira-santos-32a04038b</a></small>
+      <small><a href="https://github.com/snikolas738-ui" target="_blank" rel="noopener">github.com/snikolas738-ui</a></small>
+      <h4>Resumo profissional</h4>
+      <p>Programador com foco em desenvolvimento Backend, com projetos próprios em Python, Java e JavaScript publicados no GitHub. Experiência prática com APIs REST, bancos de dados relacionais (SQLite e PostgreSQL), arquitetura em camadas e Git/GitHub. Buscando oportunidade de estágio em TI.</p>
+      <h4>Competências técnicas</h4>
+      <p><b>Linguagens:</b> Python, Java, JavaScript, C#, SQL, HTML, CSS<br><b>Frameworks:</b> Spring Boot, Flask, Node.js<br><b>Banco de dados:</b> SQLite, PostgreSQL, MySQL<br><b>Conceitos:</b> API REST, POO, Arquitetura em camadas, CRUD, JWT<br><b>Ferramentas:</b> Git, GitHub, VS Code, Linux, Windows</p>
+      <h4>Projetos (GitHub)</h4>
+      <ul>
+        <li><b>Sistema de Gestão de Vendas</b> (Java, Spring Boot, PostgreSQL), em desenvolvimento</li>
+        <li><b>Help Desk / Gestão de Chamados</b> (Python, Flask, SQLite)</li>
+        <li><b>Sistema Financeiro Empresarial</b> (Node.js, SQLite)</li>
+        <li><b>Gerenciamento de Biblioteca</b> (Python, SQLite)</li>
+        <li><b>API REST de Tarefas</b> (Python, Flask, SQLite)</li>
+        <li><b>Cadastro de Produtos</b> (Java)</li>
+        <li><b>Kanban de Tarefas</b> e <b>Conversor de Moedas e Unidades</b> (JavaScript)</li>
+      </ul>
+      <h4>Formação acadêmica</h4>
+      <p>Análise e Desenvolvimento de Sistemas, Anhanguera (previsão de conclusão: dezembro de 2027)<br>Ensino técnico, ENNET (2022)</p>
+    </article>
+  </section>
+
+  <section id="contato">
+    <h2>Contato</h2>
+    <p class="lead">Se tem uma vaga de estágio ou júnior, me chame.</p>
+    <div class="contact">
+      <div class="ct"><small>e-mail</small><div id="v-email">snikolas738@gmail.com</div><button class="copy" data-copy="snikolas738@gmail.com">Copiar e-mail</button></div>
+      <div class="ct"><small>telefone</small><div id="v-tel">(11) 96640-4759</div><button class="copy" data-copy="(11) 96640-4759">Copiar telefone</button></div>
+      <div class="ct"><small>linkedin</small><div>nikolas-pereira-santos</div><a class="btn ghost" style="display:inline-block;padding:6px 12px;font-size:12.5px" href="https://www.linkedin.com/in/nikolas-pereira-santos-32a04038b/" target="_blank" rel="noopener">Abrir LinkedIn</a></div>
+      <div class="ct"><small>github</small><div>snikolas738-ui</div><a class="btn ghost" style="display:inline-block;padding:6px 12px;font-size:12.5px" href="https://github.com/snikolas738-ui" target="_blank" rel="noopener">Abrir GitHub</a></div>
+    </div>
+  </section>
+
+  <footer>© 2026 Nikolas Pereira Santos. Feito em HTML, CSS e JavaScript.</footer>
+</div>
+
+<script>
+(function () {
+  var G = "https://github.com/snikolas738-ui/";
+  var projetos = [
+    { n: "Sistema de Gestão de Vendas", l: "Java", t: "Em andamento", d: "Backend com Spring Boot e PostgreSQL: 8 entidades JPA, repositórios Spring Data e autenticação JWT.", r: "Sistema-de-Gest-o-de-Vendas", f: 1 },
+    { n: "Help Desk / Gestão de Chamados", l: "Python", t: "API REST", d: "Chamados com fluxo de status controlado, agentes, comentários e dashboard. Flask e SQLite.", r: "helpdesk-python", f: 1 },
+    { n: "Sistema Financeiro Empresarial", l: "JavaScript", t: "API REST", d: "Contas, transações com saldo atualizado automaticamente e contas a pagar e receber. Node.js sem dependências.", r: "sistema-financeiro-nodejs", f: 1 },
+    { n: "Gerenciamento de Biblioteca", l: "Python", t: "SQLite", d: "Livros, usuários, empréstimos e devoluções, em camadas de modelos, repositórios e serviços.", r: "biblioteca-python" },
+    { n: "API REST de Tarefas", l: "Python", t: "API REST", d: "CRUD completo com validação de dados e códigos HTTP corretos. Versões em Flask e Node.js.", r: "api-tarefas-python" },
+    { n: "Cadastro de Produtos", l: "Java", t: "POO", d: "CRUD em Java com orientação a objetos e coleções.", r: "cadastro-produtos-de-Java" },
+    { n: "Agenda de Contatos", l: "Python", t: "SQLite", d: "Agenda no terminal com banco SQLite para cadastrar, buscar e remover contatos.", r: "agenda-de-contatos" },
+    { n: "Kanban de Tarefas", l: "JavaScript", t: "Front-end", d: "Quadro com arrastar e soltar. As tarefas ficam salvas no navegador.", r: "" },
+    { n: "Conversor de Moedas e Unidades", l: "JavaScript", t: "Front-end", d: "Converte moedas com câmbio atual e unidades de medida, direto no navegador.", r: "conversor-moedas-unidades" },
+    { n: "Jogo da Forca", l: "JavaScript", t: "Front-end", d: "Jogo com boneco em SVG, teclado na tela e teclado físico.", r: "jogo-da-forca" },
+    { n: "Calculadora de IMC", l: "Python", t: "Terminal", d: "Calcula o IMC e classifica pela tabela da OMS, com validação de entrada.", r: "" }
+  ];
+  var langs = ["Todos", "Python", "Java", "JavaScript"], atual = "Todos";
+  var fEl = document.getElementById("filters"), gEl = document.getElementById("grid");
+
+  function render() {
+    fEl.innerHTML = "";
+    langs.forEach(function (l) {
+      var b = document.createElement("button");
+      var c = l === "Todos" ? projetos.length : projetos.filter(function (p) { return p.l === l; }).length;
+      b.textContent = l + " (" + c + ")";
+      b.setAttribute("aria-pressed", String(l === atual));
+      b.onclick = function () { atual = l; render(); };
+      fEl.appendChild(b);
+    });
+    gEl.innerHTML = "";
+    projetos.filter(function (p) { return atual === "Todos" || p.l === atual; }).forEach(function (p) {
+      var a = document.createElement("article");
+      a.className = "proj" + (p.f ? " feat" : "");
+      var h = document.createElement("h3"); h.textContent = p.n;
+      var d = document.createElement("p"); d.textContent = p.d;
+      var m = document.createElement("div"); m.className = "meta";
+      var l = document.createElement("span"); l.className = "lang"; l.textContent = "● " + p.l;
+      var t = document.createElement("span"); t.className = "badge"; t.textContent = p.t;
+      m.appendChild(l); m.appendChild(t);
+      var k = document.createElement("a"); k.className = "repo"; k.target = "_blank"; k.rel = "noopener";
+      k.href = p.r ? G + p.r : "https://github.com/snikolas738-ui?tab=repositories";
+      k.textContent = p.r ? "ver código no GitHub" : "ver no GitHub";
+      a.appendChild(h); a.appendChild(m); a.appendChild(d); a.appendChild(k);
+      gEl.appendChild(a);
+    });
+  }
+  render();
+
+  // copiar contatos
+  document.querySelectorAll(".copy").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var txt = b.getAttribute("data-copy"), old = b.textContent;
+      function ok() { b.textContent = "Copiado"; setTimeout(function () { b.textContent = old; }, 1600); }
+      function fallback() {
+        var el = b.previousElementSibling, r = document.createRange();
+        r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+        b.textContent = "Selecionado";
+        setTimeout(function () { b.textContent = old; }, 1600);
+      }
+      try { navigator.clipboard.writeText(txt).then(ok, fallback); } catch (e) { fallback(); }
+    });
+  });
+
+  var calmo = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // nome digitado na primeira tela
+  var nome = document.getElementById("nome");
+  if (!calmo && nome) {
+    var full = "Nikolas Pereira Santos", cur = nome.querySelector(".cursor"), i = 0;
+    nome.textContent = ""; nome.appendChild(cur);
+    var tm = setInterval(function () {
+      i++; nome.firstChild.nodeType === 3 ? nome.firstChild.nodeValue = full.slice(0, i) : nome.insertBefore(document.createTextNode(full.slice(0, i)), cur);
+      if (i >= full.length) clearInterval(tm);
+    }, 55);
+  }
+
+  // contadores
+  if (!calmo) {
+    document.querySelectorAll("[data-n]").forEach(function (el) {
+      var n = +el.getAttribute("data-n"), s = 0;
+      el.textContent = "0";
+      var iv = setInterval(function () { s++; el.textContent = Math.min(n, s); if (s >= n) clearInterval(iv); }, 1000 / (n + 2) + 60);
+    });
+  }
+
+  // chuva de código
+  var cv = document.getElementById("rain"), cx = cv.getContext("2d"), cols, drops, fs = 16;
+  var chars = "01{}[]<>/=;$#PYJAVAJS";
+  function size() {
+    cv.width = innerWidth; cv.height = innerHeight;
+    cols = Math.ceil(cv.width / fs);
+    drops = []; for (var c = 0; c < cols; c++) drops.push(Math.random() * cv.height / fs);
+  }
+  size(); addEventListener("resize", size);
+  function frame() {
+    cx.fillStyle = "rgba(5,8,6,.12)"; cx.fillRect(0, 0, cv.width, cv.height);
+    cx.fillStyle = "#2dff7a"; cx.font = fs + "px monospace";
+    for (var c = 0; c < cols; c++) {
+      cx.fillText(chars.charAt(Math.floor(Math.random() * chars.length)), c * fs, drops[c] * fs);
+      if (drops[c] * fs > cv.height && Math.random() > .975) drops[c] = 0;
+      drops[c] += .6;
+    }
+  }
+  if (calmo) {
+    cx.fillStyle = bgFill(); cx.fillRect(0, 0, cv.width, cv.height);
+    for (var k = 0; k < 40; k++) frame();
+  } else {
+    setInterval(frame, 60);
+  }
+  function bgFill() { return "#050806"; }
+})();
+</script>
+
+</body>
+</html>
